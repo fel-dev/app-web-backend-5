@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace app_web_backend_5.Models {
 
     [Table("Veículos")]
-    public class veiculo {
+    public class Veiculo {
 
         [Key]
         public int ID { get; set; }

@@ -14,5 +14,7 @@ namespace app_web_backend_5.Models {
 
         }
 
+        public DbSet<Veiculo> Veiculos { get; set; }
+
     }
 }
