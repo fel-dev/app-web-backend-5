@@ -1,17 +1,12 @@
-using app_web_backend_5.Models;
+using app_web_backend.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace app_web_backend_5 {
+namespace app_web_backend {
     public class Startup {
         public Startup(IConfiguration configuration) {
             Configuration = configuration;
@@ -21,12 +16,9 @@ namespace app_web_backend_5 {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
-
-
-            // Configura atras de parametrização
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
-            );
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+          );
 
             services.AddControllersWithViews();
         }

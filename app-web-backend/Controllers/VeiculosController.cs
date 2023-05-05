@@ -5,26 +5,26 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using app_web_backend_5.Models;
+using app_web_backend.Models;
 
-namespace app_web_backend_5.Controllers
+namespace app_web_backend.Controllers
 {
-    public class VeiculoeController : Controller
+    public class VeiculosController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public VeiculoeController(ApplicationDbContext context)
+        public VeiculosController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Veiculoe
+        // GET: Veiculos
         public async Task<IActionResult> Index()
         {
             return View(await _context.Veiculos.ToListAsync());
         }
 
-        // GET: Veiculoe/Details/5
+        // GET: Veiculos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,7 +33,7 @@ namespace app_web_backend_5.Controllers
             }
 
             var veiculo = await _context.Veiculos
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (veiculo == null)
             {
                 return NotFound();
@@ -42,18 +42,18 @@ namespace app_web_backend_5.Controllers
             return View(veiculo);
         }
 
-        // GET: Veiculoe/Create
+        // GET: Veiculos/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Veiculoe/Create
+        // POST: Veiculos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,nome,placa")] Veiculo veiculo)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Placa")] Veiculo veiculo)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +64,7 @@ namespace app_web_backend_5.Controllers
             return View(veiculo);
         }
 
-        // GET: Veiculoe/Edit/5
+        // GET: Veiculos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,14 +80,14 @@ namespace app_web_backend_5.Controllers
             return View(veiculo);
         }
 
-        // POST: Veiculoe/Edit/5
+        // POST: Veiculos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,nome,placa")] Veiculo veiculo)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Placa")] Veiculo veiculo)
         {
-            if (id != veiculo.ID)
+            if (id != veiculo.Id)
             {
                 return NotFound();
             }
@@ -101,7 +101,7 @@ namespace app_web_backend_5.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VeiculoExists(veiculo.ID))
+                    if (!VeiculoExists(veiculo.Id))
                     {
                         return NotFound();
                     }
@@ -115,7 +115,7 @@ namespace app_web_backend_5.Controllers
             return View(veiculo);
         }
 
-        // GET: Veiculoe/Delete/5
+        // GET: Veiculos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,7 +124,7 @@ namespace app_web_backend_5.Controllers
             }
 
             var veiculo = await _context.Veiculos
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (veiculo == null)
             {
                 return NotFound();
@@ -133,7 +133,7 @@ namespace app_web_backend_5.Controllers
             return View(veiculo);
         }
 
-        // POST: Veiculoe/Delete/5
+        // POST: Veiculos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -146,7 +146,7 @@ namespace app_web_backend_5.Controllers
 
         private bool VeiculoExists(int id)
         {
-            return _context.Veiculos.Any(e => e.ID == id);
+            return _context.Veiculos.Any(e => e.Id == id);
         }
     }
 }
