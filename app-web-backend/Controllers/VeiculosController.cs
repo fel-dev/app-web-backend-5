@@ -42,6 +42,25 @@ namespace app_web_backend.Controllers
             return View(veiculo);
         }
 
+        // Relatório
+        public async Task<IActionResult> Relatório(int? id) {
+            if (id == null) 
+            {
+                return NotFound();
+            }
+            // Alterações
+            var veiculo = await _context.Veiculos // recupera o veiculo
+                .Include(t => t.Consumos)         // inclui os consumos (é possível pela navegação virtual em Vericulos.cs pela FK em Consumos.cs)
+                .FirstOrDefaultAsync(m => m.Id == id); // recupera quala é o veículo
+
+            if (veiculo == null) 
+            {
+                return NotFound();
+            }
+
+            return View(veiculo);
+        }
+
         // GET: Veiculos/Create
         public IActionResult Create()
         {
