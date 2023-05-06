@@ -1,4 +1,5 @@
 using app_web_backend.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,20 @@ namespace app_web_backend {
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
           );
 
+            // para fazer configuração de senha. configuração do site da MS mesmo.
+            // https://docs.microsoft.com/pt-br/aspnet/core/security/gdpr?view=aspnetcore-5.0
+            services.Configure<CookiePolicyOptions>(options => {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.                
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;
+            });
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => {
+                    options.AccessDeniedPath = "/Usuarios/AccessDenied";
+                    options.LoginPath = "/Usuarios/Login";                    
+            });
+
             services.AddControllersWithViews();
         }
 
@@ -37,7 +52,13 @@ namespace app_web_backend {
 
             app.UseRouting();
 
+            // cookie policy para o GDPR
+            app.UseCookiePolicy();
+
             app.UseAuthorization();
+
+            // https://docs.microsoft.com/pt-br/aspnet/core/security/authentication/cookie?view=aspnetcore-5.0
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllerRoute(

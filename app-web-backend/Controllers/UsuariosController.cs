@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using app_web_backend.Models;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 
 namespace app_web_backend.Controllers
 {
@@ -20,6 +22,61 @@ namespace app_web_backend.Controllers
         
         // GET: Login
         public IActionResult Login() {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login([Bind("Id,Senha")] Usuario usuario) 
+        {
+            // Recuperação dos dados do usuário
+            var user = await _context.Usuarios // procura usuário que tenham o Id igual o que está tentando logar
+                .FirstOrDefaultAsync(m => m.Id == usuario.Id);
+
+            // Verifica se o usuário existe
+            if (user == null) {
+                ViewBag.Message = "Usuário e/ou Senha não encontrado!";
+                return View();
+            }
+
+            // Verifica se a senha está no Banco de Dados criptografada
+            bool senhaCorreta = BCrypt.Net.BCrypt.Verify(usuario.Senha, user.Senha);
+
+            if (senhaCorreta) {
+                // Cria a credencial que ficará no cashe da aplicação
+                // https://docs.microsoft.com/pt-br/aspnet/core/security/authentication/identity?view=aspnetcore-5.0&tabs=visual-studio
+                var claims = new List<Claim> {
+                    new Claim(ClaimTypes.Name, user.Nome),
+                    new Claim(ClaimTypes.NameIdentifier, user.Nome),
+                    new Claim(ClaimTypes.Role, user.perfil.ToString())
+                };
+
+                // Criar a validação desses dados
+                var userIdentity = new ClaimsIdentity(claims, "login");
+
+                ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
+
+                // Configurando o tempo de expiração do cookie
+                var props = new AuthenticationProperties {
+                    AllowRefresh = true,
+                    ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
+                    IsPersistent = false
+                };
+
+                // Inclusão do usuário na sessão da aplicação
+                await HttpContext.SignInAsync(principal, props);
+
+                return Redirect("/"); // Se der tudo ok, var redirecionar paro Home, desta vez autenticado.
+
+                //ViewBag.Message = "Usuário encontrado!";
+                //return View();
+            }
+
+            ViewBag.Message = "Usuário e/ou Senha não encontrado!";
+            return View();
+        }
+
+        // Acesso negado
+        public IActionResult AccessDenied() {
             return View();
         }
 
