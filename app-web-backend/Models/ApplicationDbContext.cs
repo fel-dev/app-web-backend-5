@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using app_web_backend.Models;
 
 namespace app_web_backend.Models
 {
@@ -12,5 +13,6 @@ namespace app_web_backend.Models
         {
         }
         public DbSet<Veiculo> Veiculos { get; set; }
+        public DbSet<app_web_backend.Models.Consumo> Consumo { get; set; }
     }
 }
