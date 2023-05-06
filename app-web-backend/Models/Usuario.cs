@@ -18,6 +18,7 @@ namespace app_web_backend.Models {
         public string Email { get; set; }
 
         [Required(ErrorMessage = "O campo Senha é obrigatório")]
+        [DataType(DataType.Password)]
         [MaxLength(100, ErrorMessage = "O campo Senha recebe no máximo 100 caracteres")]
         public string Senha { get; set;}
 

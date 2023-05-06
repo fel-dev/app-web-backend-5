@@ -57,6 +57,7 @@ namespace app_web_backend.Controllers
         {
             if (ModelState.IsValid)
             {
+                usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha); // criptografa a senha
                 _context.Add(usuario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -96,6 +97,7 @@ namespace app_web_backend.Controllers
             {
                 try
                 {
+                    usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha); // ao editar a senha, criptografa novamente
                     _context.Update(usuario);
                     await _context.SaveChangesAsync();
                 }
