@@ -80,6 +80,13 @@ namespace app_web_backend.Controllers
             return View();
         }
 
+        // Logout redirecionando pro login
+        public async Task<IActionResult> Logout() {
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Login", "Usuarios");
+        }
+
+
 
         // GET: Usuarios
         public async Task<IActionResult> Index()

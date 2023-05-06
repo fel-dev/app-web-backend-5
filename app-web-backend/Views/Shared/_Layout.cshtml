@@ -39,6 +39,7 @@
                             @* Vai aprensentar o nome do usuário *@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Logout">Olá, @User.Identity.Name!</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Logout">Logout</a>
                             </li>
                         } else {
                             @* Vai apresentar o link para o usuário logar *@
