@@ -26,7 +26,7 @@
                         </li>
 
                         
-                        @if (User.Identity.IsAuthenticated) 
+                        @if (User.Identity.IsAuthenticated)
                         {
                             @*Só enchega se o usuário estiver logado*@
                             <li class="nav-item">
@@ -47,14 +47,21 @@
                         
                     </ul>
                     <ul class="navbar-nav">
+                        
                         @*Verifica se o usuário está logado na aplicação*@
-                        @if (User.Identity.IsAuthenticated) {
+                        @if (User.Identity.IsAuthenticated) 
+                        {
                             @* Vai aprensentar o nome do usuário *@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Logout">Olá, @User.Identity.Name!</a>
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Logout">Logout</a>
                             </li>
-                        } else {
+
+                        } 
+
+                        else 
+
+                        {
                             @* Vai apresentar o link para o usuário logar *@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Login">Login</a>
