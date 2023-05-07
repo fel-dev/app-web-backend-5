@@ -52,13 +52,15 @@ namespace app_web_backend {
 
             app.UseRouting();
 
-            // cookie policy para o GDPR
-            app.UseCookiePolicy();
-
-            app.UseAuthorization();
+            // 1º - Configuração de cookies
+            app.UseCookiePolicy(); 
 
             // https://docs.microsoft.com/pt-br/aspnet/core/security/authentication/cookie?view=aspnetcore-5.0
-            app.UseAuthentication();
+            app.UseAuthentication(); // 2º - Configuração de autenticação
+
+            app.UseAuthorization(); // 3º - Configuração de autorização
+
+            
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllerRoute(

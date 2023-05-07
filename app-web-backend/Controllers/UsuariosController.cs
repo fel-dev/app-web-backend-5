@@ -8,9 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using app_web_backend.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace app_web_backend.Controllers
 {
+
+    [Authorize(Roles = "Admin, User")]
     public class UsuariosController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,13 +22,15 @@ namespace app_web_backend.Controllers
         {
             _context = context;
         }
-        
+
         // GET: Login
+        [AllowAnonymous] // <--- Anotação para liberar o acesso sem login
         public IActionResult Login() {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous] // <--- Anotação para liberar o acesso sem login
         public async Task<IActionResult> Login([Bind("Id,Senha")] Usuario usuario) 
         {
             // Recuperação dos dados do usuário
@@ -76,6 +81,7 @@ namespace app_web_backend.Controllers
         }
 
         // Acesso negado
+        [AllowAnonymous] // <--- Anotação para liberar o acesso sem login
         public IActionResult AccessDenied() {
             return View();
         }

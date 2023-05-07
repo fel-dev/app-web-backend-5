@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using app_web_backend.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace app_web_backend.Controllers
 {
+
+    [Authorize] // <--- Anotação para restringir o acesso apenas pra quem tá logado
     public class VeiculosController : Controller
     {
         private readonly ApplicationDbContext _context;

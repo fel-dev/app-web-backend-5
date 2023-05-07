@@ -24,14 +24,27 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Veiculos" asp-action="Index">Veículos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Consumos" asp-action="Index">Consumos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuários</a>
+
+                        
+                        @if (User.Identity.IsAuthenticated) 
+                        {
+                            @*Só enchega se o usuário estiver logado*@
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Veiculos" asp-action="Index">Veículos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Consumos" asp-action="Index">Consumos</a>
+                            </li>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuários</a>
+                                </li>
+                            }
+                        }
+
+                        
                     </ul>
                     <ul class="navbar-nav">
                         @*Verifica se o usuário está logado na aplicação*@
